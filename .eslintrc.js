@@ -20,7 +20,6 @@ module.exports = {
     'plugin:@typescript-eslint/eslint-recommended',
     'plugin:unicorn/recommended',
     'plugin:import/recommended',
-    'plugin:sonarjs/recommended',
   ],
   plugins: [
     '@typescript-eslint',
