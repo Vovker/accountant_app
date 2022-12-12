@@ -9,7 +9,7 @@ import {
   Query,
   ValidationPipe,
 } from '@nestjs/common';
-import { ApiOkResponse, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiOkResponse, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { PageDto } from '../../common/dto/page.dto';
 import { RoleType } from '../../constants';
@@ -101,6 +101,7 @@ export class UserController {
 
   @Put(':id')
   @Auth([RoleType.ADMIN, RoleType.MANAGER])
+  @ApiParam({ name: 'id', type: String })
   @HttpCode(HttpStatus.OK)
   @ApiOkResponse({
     status: HttpStatus.OK,
@@ -118,6 +119,7 @@ export class UserController {
   @Put(':id/activate')
   @Auth([RoleType.ADMIN])
   @HttpCode(HttpStatus.OK)
+  @ApiParam({ name: 'id', type: String })
   @ApiOkResponse({
     status: HttpStatus.OK,
     description: 'User successfully activated!',

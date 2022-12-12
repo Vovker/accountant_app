@@ -6,8 +6,10 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { I18nModule } from 'nestjs-i18n';
 import path from 'path';
 
+import { AttachmentsModule } from './modules/attachments/attachments.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { PostModule } from './modules/post/post.module';
+import { RequestModule } from './modules/request/request.module';
 import { UserModule } from './modules/user/user.module';
 import { ApiConfigService } from './shared/services/api-config.service';
 import { SharedModule } from './shared/shared.module';
@@ -17,6 +19,8 @@ import { SharedModule } from './shared/shared.module';
     AuthModule,
     UserModule,
     PostModule,
+    AttachmentsModule,
+    RequestModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',

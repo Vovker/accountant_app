@@ -1,0 +1,9 @@
+export enum RequestStatus {
+  CREATED = 'CREATED',
+
+  IN_PROGRESS = 'IN_PROGRESS',
+
+  REJECTED = 'REJECTED',
+
+  COMPLETED = 'COMPLETED',
+}

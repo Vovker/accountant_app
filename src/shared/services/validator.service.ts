@@ -7,4 +7,8 @@ export class ValidatorService {
 
     return imageMimeTypes.includes(mimeType);
   }
+
+  public isAllowed(mimeType: string, allowedMimeTypes: string[]): boolean {
+    return allowedMimeTypes.includes(mimeType);
+  }
 }

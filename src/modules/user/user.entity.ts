@@ -4,7 +4,7 @@ import type { IAbstractEntity } from '../../common/abstract.entity';
 import { AbstractEntity } from '../../common/abstract.entity';
 import { RoleType } from '../../constants';
 import { UseDto, VirtualColumn } from '../../decorators';
-import { PostEntity } from '../post/post.entity';
+import { RequestEntity } from '../request/request.entity';
 import { UserDto } from './dtos/user.dto';
 
 export interface IUserEntity extends IAbstractEntity<UserDto> {
@@ -45,6 +45,12 @@ export class UserEntity extends AbstractEntity<UserDto> implements IUserEntity {
   @VirtualColumn()
   fullName: string;
 
-  @OneToMany(() => PostEntity, (postEntity) => postEntity.user)
-  posts: PostEntity[];
+  @OneToMany(() => RequestEntity, (requestEntity) => requestEntity.requester_id)
+  requests: RequestEntity[];
+
+  @OneToMany(
+    () => RequestEntity,
+    (requestEntity) => requestEntity.accountant_id,
+  )
+  accountants: RequestEntity[];
 }
