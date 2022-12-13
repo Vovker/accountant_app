@@ -15,18 +15,22 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 
-import { RoleType } from '../../constants';
-import { RequestStatus } from '../../constants/request-status';
+import { RequestStatus, RoleType } from '../../constants';
 import { Auth, AuthUser, UUIDParam } from '../../decorators';
 import { UserEntity } from '../user/user.entity';
+import { UserService } from '../user/user.service';
 import { CreateRequestDto } from './dtos/create-request.dto';
+import { ReassignRequestDto } from './dtos/reassign-request.dto';
 import { RequestDto } from './dtos/request.dto';
 import { RequestService } from './request.service';
 
 @Controller('request')
 @ApiTags('request')
 export class RequestController {
-  constructor(private requestService: RequestService) {}
+  constructor(
+    private requestService: RequestService,
+    private userService: UserService,
+  ) {}
 
   @Post()
   @Auth([RoleType.MANAGER, RoleType.EMPLOYEE, RoleType.ACCOUNTANT])
@@ -76,5 +80,22 @@ export class RequestController {
     @AuthUser() user: UserEntity,
   ) {
     return this.requestService.updateRequestStatus(user, id, status);
+  }
+
+  @Put('/reassign/:id')
+  @Auth([RoleType.ACCOUNTANT])
+  @HttpCode(HttpStatus.OK)
+  @ApiParam({ name: 'id', type: String })
+  @ApiOkResponse({ type: RequestDto })
+  async reassignRequest(
+    @UUIDParam('id') id: Uuid,
+    @Body() accountant: ReassignRequestDto,
+    @AuthUser() user: UserEntity,
+  ) {
+    const assigningAccountant = await this.userService.getUser(
+      accountant.accountant_id,
+    );
+
+    return this.requestService.reassignRequest(user, assigningAccountant, id);
   }
 }

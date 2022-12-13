@@ -62,7 +62,7 @@ export class UserService {
     return items.toPageDto(pageMetaDto);
   }
 
-  async getUser(userId: Uuid): Promise<UserDto> {
+  async getUser(userId: Uuid): Promise<UserEntity> {
     const queryBuilder = this.userRepository.createQueryBuilder('user');
 
     queryBuilder.where('user.id = :userId', { userId });
@@ -73,7 +73,7 @@ export class UserService {
       throw new UserNotFoundException();
     }
 
-    return userEntity.toDto();
+    return userEntity;
   }
 
   async updateUser(userId: Uuid, userDto: UpdateUserDto): Promise<UserDto> {

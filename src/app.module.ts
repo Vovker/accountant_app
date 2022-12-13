@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { I18nModule } from 'nestjs-i18n';
 import path from 'path';
 
+import { AdminModule } from './modules/admin/admin.module';
 import { AttachmentsModule } from './modules/attachments/attachments.module';
 import { AuthModule } from './modules/auth/auth.module';
 import { PostModule } from './modules/post/post.module';
@@ -21,6 +22,7 @@ import { SharedModule } from './shared/shared.module';
     PostModule,
     AttachmentsModule,
     RequestModule,
+    AdminModule,
     ConfigModule.forRoot({
       isGlobal: true,
       envFilePath: '.env',

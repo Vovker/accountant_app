@@ -3,8 +3,8 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Transactional } from 'typeorm-transactional-cls-hooked';
 
+import type { RequestStatus } from '../../constants';
 import { RoleType } from '../../constants';
-import type { RequestStatus } from '../../constants/request-status';
 import { AccountantNotFoundException } from '../../exceptions/accountant-not-found.exception';
 import { UserEntity } from '../user/user.entity';
 import { CreateRequestDto } from './dtos/create-request.dto';
@@ -110,7 +110,7 @@ export class RequestService {
     } else if (request.accountant_id.id !== accountant_id.id) {
       throw new HttpException(
         'You are not allowed to update this request',
-        HttpStatus.UNAUTHORIZED,
+        HttpStatus.BAD_REQUEST,
       );
     }
 
@@ -118,5 +118,39 @@ export class RequestService {
     await this.requestRepository.save(request);
 
     return request.toDto();
+  }
+
+  async reassignRequest(
+    currentAccountant: UserEntity,
+    assignedAccountant: UserEntity,
+    requestId: Uuid,
+  ): Promise<RequestDto> {
+    const request = this.requestRepository.createQueryBuilder('request');
+    request.where('request.id = :requestId', { requestId });
+    request.leftJoinAndSelect('request.accountant_id', 'accountant');
+    const requestEntity = await request.getOne();
+
+    if (!requestEntity) {
+      throw new HttpException('Request not found', HttpStatus.NOT_FOUND);
+    }
+
+    if (assignedAccountant.role !== RoleType.ACCOUNTANT) {
+      throw new HttpException(
+        'User is not an accountant',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    if (requestEntity.accountant_id.id !== currentAccountant.id) {
+      throw new HttpException(
+        'You are not allowed to update this request',
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+
+    requestEntity.accountant_id = assignedAccountant;
+    await this.requestRepository.save(requestEntity);
+
+    return requestEntity.toDto();
   }
 }
