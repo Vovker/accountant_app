@@ -9,7 +9,6 @@ import path from 'path';
 import { AdminModule } from './modules/admin/admin.module';
 import { AttachmentsModule } from './modules/attachments/attachments.module';
 import { AuthModule } from './modules/auth/auth.module';
-import { PostModule } from './modules/post/post.module';
 import { RequestModule } from './modules/request/request.module';
 import { UserModule } from './modules/user/user.module';
 import { ApiConfigService } from './shared/services/api-config.service';
@@ -19,7 +18,6 @@ import { SharedModule } from './shared/shared.module';
   imports: [
     AuthModule,
     UserModule,
-    PostModule,
     AttachmentsModule,
     RequestModule,
     AdminModule,
