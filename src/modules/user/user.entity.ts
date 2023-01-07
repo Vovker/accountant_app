@@ -4,6 +4,7 @@ import type { IAbstractEntity } from '../../common/abstract.entity';
 import { AbstractEntity } from '../../common/abstract.entity';
 import { RoleType } from '../../constants';
 import { UseDto, VirtualColumn } from '../../decorators';
+import { ChatEntity } from '../chat/chat.entity';
 import { RequestEntity } from '../request/request.entity';
 import { UserDto } from './dtos/user.dto';
 import { UserPasswordsEntity } from './user-passwords/user-passwords.entity';
@@ -58,7 +59,7 @@ export class UserEntity extends AbstractEntity<UserDto> implements IUserEntity {
 
   @OneToOne(
     () => UserSettingsEntity,
-    (userSettingsEntity) => userSettingsEntity.settingsId,
+    (userSettingsEntity) => userSettingsEntity.user,
   )
   settings: UserSettingsEntity;
 
@@ -67,4 +68,7 @@ export class UserEntity extends AbstractEntity<UserDto> implements IUserEntity {
     (userPasswordsEntity) => userPasswordsEntity.user,
   )
   passwords: UserPasswordsEntity[];
+
+  @OneToMany(() => ChatEntity, (chatEntity) => chatEntity.user)
+  chats: ChatEntity[];
 }

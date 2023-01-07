@@ -23,10 +23,12 @@ export class MatchConstraint implements ValidatorConstraintInterface {
 
 export function Match<T>(
   type: ClassConstructor<T>,
-  property: (o: T) => Record<K, V>,
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  property: (o: T) => any,
   validationOptions?: ValidationOptions,
 ) {
-  return (object: Record<K, V>, propertyName: string) => {
+  // eslint-disable-next-line  @typescript-eslint/no-explicit-any
+  return (object: any, propertyName: string) => {
     registerDecorator({
       target: object.constructor,
       propertyName,

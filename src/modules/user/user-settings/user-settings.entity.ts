@@ -1,4 +1,4 @@
-import { Entity, JoinColumn, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 
 import type { IAbstractEntity } from '../../../common/abstract.entity';
 import { AbstractEntity } from '../../../common/abstract.entity';
@@ -18,15 +18,21 @@ export class UserSettingsEntity
   extends AbstractEntity<UserSettingsDto>
   implements IUserSettingsEntity
 {
+  @Column({ nullable: false, default: 0 })
   vacationDays: number;
 
+  @Column({ nullable: false, default: 0 })
   sickDays: number;
 
+  @Column({ nullable: false })
+  hiredAt: Date;
+
+  @Column({ nullable: false, default: false })
   isVerified: boolean;
 
   @OneToOne(() => UserEntity, (userEntity) => userEntity.settings, {
-    nullable: true,
+    nullable: false,
   })
-  @JoinColumn({ name: 'settings_id' })
-  settingsId: UserEntity;
+  @JoinColumn({ name: 'user' })
+  user: UserEntity;
 }

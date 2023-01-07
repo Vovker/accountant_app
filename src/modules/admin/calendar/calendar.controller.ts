@@ -24,7 +24,7 @@ export class CalendarController {
     return this.calendarService.setDays(date);
   }
 
-  @Post('holiday')
+  @Post('days')
   @ApiOkResponse({
     status: HttpStatus.OK,
     description: 'The list of special days in range.',
@@ -32,6 +32,6 @@ export class CalendarController {
     isArray: true,
   })
   getHolidays(@Body() range: GetCalendarDto) {
-    return this.calendarService.getHolidays(range);
+    return this.calendarService.getDays(range);
   }
 }

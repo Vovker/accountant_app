@@ -1,5 +1,5 @@
 import { AbstractDto } from '../../../common/dto/abstract.dto';
-import type { RequestStatus } from '../../../constants/request-status';
+import type { RequestStatus } from '../../../constants';
 
 export class RequestDto extends AbstractDto {
   title: string;

@@ -13,4 +13,7 @@ export class CalendarEntity extends AbstractEntity<CalendarDto> {
 
   @Column({ type: 'enum', enum: Calendar })
   type: Calendar;
+
+  @Column({ type: 'text', nullable: true })
+  description?: string;
 }

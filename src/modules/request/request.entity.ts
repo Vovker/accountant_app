@@ -2,7 +2,7 @@ import { Column, Entity, JoinColumn, ManyToOne } from 'typeorm';
 
 import type { IAbstractEntity } from '../../common/abstract.entity';
 import { AbstractEntity } from '../../common/abstract.entity';
-import { RequestStatus } from '../../constants/request-status';
+import { RequestStatus } from '../../constants';
 import { UseDto } from '../../decorators';
 import { UserEntity } from '../user/user.entity';
 import { RequestDto } from './dtos/request.dto';
