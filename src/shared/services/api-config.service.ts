@@ -116,6 +116,15 @@ export class ApiConfigService {
     };
   }
 
+  get awsSesConfig() {
+    return {
+      region: this.getString('AWS_SES_REGION'),
+      apiVersion: this.getString('AWS_SES_API_VERSION'),
+      accessKeyId: this.getString('AWS_SES_ACCESS_KEY_ID'),
+      secretAccessKey: this.getString('AWS_SES_SECRET_ACCESS_KEY'),
+    };
+  }
+
   get documentationEnabled(): boolean {
     return this.getBoolean('ENABLE_DOCUMENTATION');
   }

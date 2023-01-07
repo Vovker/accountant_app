@@ -33,6 +33,18 @@ export class AuthService {
     });
   }
 
+  async createRequestChangePasswordToken(
+    user: UserEntity,
+  ): Promise<TokenPayloadDto> {
+    return new TokenPayloadDto({
+      expiresIn: this.configService.authConfig.jwtExpirationTime,
+      accessToken: await this.jwtService.signAsync({
+        userId: user.id,
+        type: TokenType.CHANGE_PASSWORD_TOKEN,
+      }),
+    });
+  }
+
   async validateUser(userLoginDto: UserLoginDto): Promise<UserEntity> {
     const user = await this.userService.findOne({
       email: userLoginDto.email,

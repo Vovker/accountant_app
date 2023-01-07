@@ -1,6 +1,7 @@
-import { Column, Entity } from 'typeorm';
+import { Column, Entity, ManyToOne } from 'typeorm';
 
 import { AbstractEntity } from '../../common/abstract.entity';
+import { ChatEntity } from '../chat/chat.entity';
 @Entity({ name: 'attachments' })
 export class AttachmentsEntity extends AbstractEntity {
   @Column()
@@ -11,4 +12,7 @@ export class AttachmentsEntity extends AbstractEntity {
 
   @Column()
   type: string;
+
+  @ManyToOne(() => ChatEntity, (chatEntity) => chatEntity.attachments)
+  chats: ChatEntity;
 }

@@ -25,7 +25,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     role: RoleType;
     type: TokenType;
   }): Promise<UserEntity> {
-    if (args.type !== TokenType.ACCESS_TOKEN) {
+    if (
+      args.type !== TokenType.ACCESS_TOKEN &&
+      args.type !== TokenType.CHANGE_PASSWORD_TOKEN
+    ) {
       throw new UnauthorizedException();
     }
 

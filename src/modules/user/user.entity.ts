@@ -1,11 +1,14 @@
-import { Column, Entity, OneToMany } from 'typeorm';
+import { Column, Entity, OneToMany, OneToOne } from 'typeorm';
 
 import type { IAbstractEntity } from '../../common/abstract.entity';
 import { AbstractEntity } from '../../common/abstract.entity';
 import { RoleType } from '../../constants';
 import { UseDto, VirtualColumn } from '../../decorators';
+import { ChatEntity } from '../chat/chat.entity';
 import { RequestEntity } from '../request/request.entity';
 import { UserDto } from './dtos/user.dto';
+import { UserPasswordsEntity } from './user-passwords/user-passwords.entity';
+import { UserSettingsEntity } from './user-settings/user-settings.entity';
 
 export interface IUserEntity extends IAbstractEntity<UserDto> {
   firstName?: string;
@@ -53,4 +56,19 @@ export class UserEntity extends AbstractEntity<UserDto> implements IUserEntity {
     (requestEntity) => requestEntity.accountant_id,
   )
   accountants: RequestEntity[];
+
+  @OneToOne(
+    () => UserSettingsEntity,
+    (userSettingsEntity) => userSettingsEntity.user,
+  )
+  settings: UserSettingsEntity;
+
+  @OneToMany(
+    () => UserPasswordsEntity,
+    (userPasswordsEntity) => userPasswordsEntity.user,
+  )
+  passwords: UserPasswordsEntity[];
+
+  @OneToMany(() => ChatEntity, (chatEntity) => chatEntity.user)
+  chats: ChatEntity[];
 }

@@ -13,38 +13,18 @@ import { ApiOkResponse, ApiParam, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 import { PageDto } from '../../common/dto/page.dto';
 import { RoleType } from '../../constants';
-import { ApiPageOkResponse, Auth, AuthUser, UUIDParam } from '../../decorators';
-import { UseLanguageInterceptor } from '../../interceptors/language-interceptor.service';
-import { TranslationService } from '../../shared/services/translation.service';
+import { ApiPageOkResponse, Auth, UUIDParam } from '../../decorators';
 import { CreateAdminDto } from './dtos/create-admin.dto';
 import { CreateUserDto } from './dtos/create-user.dto';
 import { UpdateUserDto } from './dtos/update-user.dto';
 import { UserDto } from './dtos/user.dto';
 import { UsersPageOptionsDto } from './dtos/users-page-options.dto';
-import { UserEntity } from './user.entity';
 import { UserService } from './user.service';
 
 @Controller('users')
 @ApiTags('users')
 export class UserController {
-  constructor(
-    private userService: UserService,
-    private readonly translationService: TranslationService,
-  ) {}
-
-  @Get('admin')
-  @Auth([RoleType.ADMIN])
-  @HttpCode(HttpStatus.OK)
-  @UseLanguageInterceptor()
-  async admin(@AuthUser() user: UserEntity) {
-    const translation = await this.translationService.translate(
-      'admin.keywords.admin',
-    );
-
-    return {
-      text: `${translation} ${user.firstName}`,
-    };
-  }
+  constructor(private userService: UserService) {}
 
   @Get()
   @Auth([RoleType.ADMIN])
